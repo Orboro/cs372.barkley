@@ -1,101 +1,267 @@
 //
-// File:   assignment1.cpp
+// File:   testbag.cpp
 // Author: Jonathan Barkley
-// Purpose:
-// Illustrate some of the bad thins that can happen with
-// pointers
 //
+
 #include <iostream>
+#include <vector>
+
 using namespace std;
 
-#define SIZE 20
-#define LIMITSIZE 10
-
-/// <summary>
-/// Given: 
-/// 1. Allocate a large array of integers in the heap, 
-/// storing a pointer to that data. 
-/// 2. Initialize a second pointer
-/// to the same location in memory.
-/// When: 
-/// 3. An Array delete of the first pointer
-/// Then:
-/// 4. Print the first ten integers
-/// pointed to by the second pointer
-/// </summary>
-void caseOne()
+template<typename T>
+struct node
 {
-    int* ptr1 = new int[SIZE]; // 1
-    int* ptr2 = ptr1; // 2
+	node(T dat) : data(dat), next(nullptr) {}
 
-    delete[] ptr1; // 3
+	T data;
+	node* next;
+};
 
-    for (int i = 0; i < LIMITSIZE; i++) // 4
-    {
-        cout << *(ptr2 + i) << endl;
-    }
-}
+template <typename N>
+class Bag {
+private:
+	N* head;
+	// More on this shortly
+public:
+	Bag() : head(nullptr) {}
+	void insert(N* aThing) {
+		if (head == nullptr) {
+			head = aThing;
+		}
+		else {
 
-/// <summary>
-/// Given: 
-/// 1. Allocate a large array of integers in the heap, 
-/// storing a pointer to that data. 
-/// 2. Initialize a second pointer
-/// to the same location in memory.
-/// When: 
-/// 3. A regular delete of the first pointer
-/// Then:
-/// 4. Print the address of the second pointer 
-/// 5. Print the first ten integers
-/// </summary>
-void caseTwo()
-{
-    int* ptr1 = new int[SIZE]; // 1
-    int* ptr2 = ptr1; // 2
+			if (head == aThing)
+			{
+				return;
+			}
 
-    delete ptr1; // 3
+			N* current = head;
+			while (current->next != nullptr)
+			{
+				if (current == aThing)
+				{
+					return;
+				}
+				current = current->next;
+			}
 
-    cout << "PTR2 Address: " << ptr2 << endl; // 4
+			if (current == aThing)
+			{
+				return;
+			}
 
-    for (int i = 0; i < LIMITSIZE; i++) // 5
-    {
-        cout << *(ptr2 + i) << endl;
-    }
-}
+			current->next = aThing;
+		}
+	}
+	N* pop() {
 
-/// <summary>
-/// Given: 
-/// 1. A function that defines a pointer 
-/// to a C++ string object
-/// When:
-/// 2. Uses New to create a new string on the stack
-/// 3. Return of the function uses de-reference operator(*)
-/// to return string allocated on the heap.
-/// Then:
-/// 4. Calling function defines a string object, 
-/// set to whatever is returned from the helper 
-/// function 
-/// 5. Prints the string
-/// </summary>
-string StringBuilder() // 1. Helper Function
-{
-    string* str = new string("hi, I'm allocated on the heap"); // 2. ordinary heap allocation
+		if (head == nullptr)
+		{
+			return nullptr;
+		}
 
-    return *str; // 3.
-}
+		N* back = nullptr;
+		N* current = head;
+		while (current->next != nullptr)
+		{
+			back = current;
+			current = current->next;
+		}
 
-void caseThree()
-{
-    string str = StringBuilder(); // 4
-    cout << str << endl; // 5
-}
+		if (back != nullptr)
+		{
+			back->next = nullptr;
+		}
+		else
+		{
+			head = nullptr;
+		}
+
+		return current;
+	}
+	int size() {
+		int result = 0;
+
+		N* current = head;
+
+		while (current != nullptr)
+		{
+			result += 1;
+			current = current->next;
+		}
+
+		return result;
+	}
+
+	int count(N* aThing)
+	{
+		int result = 0;
+
+		N* current = head;
+
+		while (current != nullptr)
+		{
+			if (current->data == aThing->data) {
+				result += 1;
+			}
+
+			current = current->next;
+		}
+
+		return result;
+	}
+};
+
+
+template <typename Thing>
+class BagWithReceipt {
+private:
+	// More on this shortly
+	std::vector<Thing*> bagVector;
+	std::vector<int>		receipts;
+	int receiptCount;
+public:
+	BagWithReceipt() : receiptCount(0) {
+	}
+
+	int insert(Thing* aThing) {
+		bagVector.push_back(aThing);
+		receipts.push_back(receiptCount++);
+		return receipts[receipts.size() - 1];
+	}
+
+	Thing* remove(int receipt) {
+		for (int i = 0;
+			i < receipts.size();
+			++i)
+		{
+			if (receipts[i] == receipt)
+			{
+				Thing* thing = bagVector[i];
+				bagVector.erase(bagVector.begin() + i);
+				receipts.erase(receipts.begin() + i);
+				return thing;
+			}
+		}
+
+		return nullptr;
+	}
+	int size() {
+		return bagVector.size();
+	}
+	int count(Thing* aThing) {
+		int totalFound = 0;
+		int bagvecsize = bagVector.size();
+		for (int i = 0; i < bagvecsize; i++) {
+			if (bagVector[i] == aThing) {
+				totalFound++;
+			}
+		}
+		return totalFound;
+	}
+
+};
 
 int main()
 {
-    cout << "Case 1" << endl;
-    caseOne();
-    cout << endl << "Case 2" << endl;
-    caseTwo();
-    cout << endl << "Case 3" << endl;
-    caseThree();
-}
+	node<int>* n0 = new node<int>(0);
+	node<int>* n1 = new node<int>(1);
+	node<int>* n2 = new node<int>(2);
+	node<int>* n3 = new node<int>(345);
+	node<int>* n4 = new node<int>(1234987);
+	node<int>* n5 = new node<int>(198);
+	node<int>* n6 = new node<int>(0);
+	node<int>* n7 = new node<int>(0);
+	node<int>* n9 = new node<int>(0);
+	node<int>* n8 = new node<int>(0);
+
+	Bag<node<int>> bag;
+
+	cout << "Size: " << bag.size() << endl;
+	node<int>* popped = bag.pop();
+
+
+	bag.insert(n0);
+	bag.insert(n1);
+	cout << "Size: " << bag.size() << endl;
+
+	bag.insert(n2);
+	cout << "Size: " << bag.size() << endl;
+	bag.insert(n1);
+	cout << "Size: " << bag.size() << endl;
+	bag.insert(n5);
+	bag.insert(n4);
+	bag.insert(n8);
+	bag.insert(n8);
+	bag.insert(n2);
+	bag.insert(n9);
+
+	cout << "Size: " << bag.size() << endl;
+
+	popped = bag.pop();
+	cout << "Popped " << popped->data << endl;
+
+	cout << "Count of 0: " << bag.count(n8) << endl;
+
+
+	BagWithReceipt<char> bwr;
+
+	std::vector<int> receipts;
+
+	receipts.push_back(bwr.insert(new char('a')));
+	receipts.push_back(bwr.insert(new char('6')));
+	receipts.push_back(bwr.insert(new char('s')));
+	receipts.push_back(bwr.insert(new char('e')));
+	receipts.push_back(bwr.insert(new char('a')));
+	receipts.push_back(bwr.insert(new char('d')));
+	receipts.push_back(bwr.insert(new char('l')));
+	receipts.push_back(bwr.insert(new char('0')));
+	receipts.push_back(bwr.insert(new char('q')));
+	receipts.push_back(bwr.insert(new char('z')));
+	receipts.push_back(bwr.insert(new char('2')));
+	receipts.push_back(bwr.insert(new char('y')));
+	receipts.push_back(bwr.insert(new char('8')));
+	receipts.push_back(bwr.insert(new char('p')));
+	receipts.push_back(bwr.insert(new char('e')));
+
+	cout << "Got back" << *(bwr.remove(receipts[10])) << endl;
+	receipts.erase(receipts.begin() + 10);
+	cout << "Got back" << *(bwr.remove(receipts[13])) << endl;
+	receipts.erase(receipts.begin() + 13);
+	cout << "Got back" << *(bwr.remove(receipts[10])) << endl;
+	receipts.erase(receipts.begin() + 10);
+	cout << "Got back" << *(bwr.remove(receipts[7])) << endl;
+	receipts.erase(receipts.begin() + 7);
+	cout << "Got back" << *(bwr.remove(receipts[10])) << endl;
+	receipts.erase(receipts.begin() + 10);
+	cout << "Got back" << *(bwr.remove(receipts[6])) << endl;
+	receipts.erase(receipts.begin() + 6);
+	cout << "Got back" << *(bwr.remove(receipts[8])) << endl;
+	receipts.erase(receipts.begin() + 8);
+	cout << "Got back" << *(bwr.remove(receipts[1])) << endl;
+	receipts.erase(receipts.begin() + 1);
+	cout << "Got back" << *(bwr.remove(receipts[1])) << endl;
+	receipts.erase(receipts.begin() + 1);
+	cout << "Got back" << *(bwr.remove(receipts[3])) << endl;
+	receipts.erase(receipts.begin() + 3);
+	cout << "Got back" << *(bwr.remove(receipts[3])) << endl;
+	receipts.erase(receipts.begin() + 3);
+	cout << "Got back" << *(bwr.remove(receipts[2])) << endl;
+	receipts.erase(receipts.begin() + 2);
+	cout << "Got back" << *(bwr.remove(receipts[1])) << endl;
+	receipts.erase(receipts.begin() + 1);
+	cout << "Got back" << *(bwr.remove(receipts[0])) << endl;
+	receipts.erase(receipts.begin() + 1);
+
+
+
+	delete n0;
+	delete n1;
+	delete n2;
+	delete n3;
+	delete n4;
+	delete n5;
+	delete n6;
+	delete n7;
+	delete n8;
+	delete n9;
