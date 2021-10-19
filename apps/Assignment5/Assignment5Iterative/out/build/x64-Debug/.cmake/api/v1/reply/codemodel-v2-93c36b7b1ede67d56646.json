@@ -1,0 +1,59 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Assignment5Iterative",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "Assignment5Iterative::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Assignment5Iterative-Debug-0076f977ee4f6c4aad26.json",
+					"name" : "Assignment5Iterative",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/jbark/Documents/Homework/cs372.barkley/apps/Assignment5/Assignment5Iterative/out/build/x64-Debug",
+		"source" : "C:/Users/jbark/Documents/Homework/cs372.barkley/apps/Assignment5/Assignment5Iterative"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 2
+	}
+}
