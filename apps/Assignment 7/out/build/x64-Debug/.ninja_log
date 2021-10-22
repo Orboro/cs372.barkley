@@ -1,0 +1,14 @@
+# ninja log v5
+0	6	0	clean	9992afb1f91dc381
+1	8	0	clean	9992afb1f91dc381
+0	7	0	clean	9992afb1f91dc381
+0	493	6565736404314808	CMakeFiles/CMakeTarget.dir/Assignment_7.cpp.obj	2a8f3fbb6b1e160c
+494	835	6565736407625952	CMakeTarget.exe	c2695998e67f999f
+0	530	6565737809496790	CMakeFiles/CMakeTarget.dir/Assignment_7.cpp.obj	2a8f3fbb6b1e160c
+531	740	6565737811311944	CMakeTarget.exe	c2695998e67f999f
+0	799	6566092407391632	CMakeFiles/CMakeTarget.dir/Assignment_7.cpp.obj	2a8f3fbb6b1e160c
+800	1001	6566092409052270	CMakeTarget.exe	c2695998e67f999f
+0	558	6566150607897014	CMakeFiles/CMakeTarget.dir/Assignment_7.cpp.obj	2a8f3fbb6b1e160c
+561	716	6566150609253385	CMakeTarget.exe	c2695998e67f999f
+0	824	6566163483214454	CMakeFiles/CMakeTarget.dir/Assignment_7.cpp.obj	2a8f3fbb6b1e160c
+825	1022	6566163484870028	CMakeTarget.exe	c2695998e67f999f
